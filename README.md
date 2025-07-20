@@ -1,5 +1,7 @@
-20250720 晚八更新
+20250720 晚八更新 
+
 epoch = 3 以下是全部终端输出：
+
 using device: cuda
 Loading BERT model...
 Loading AMR parser...
