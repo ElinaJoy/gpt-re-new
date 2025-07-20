@@ -2,24 +2,7 @@
 
 epoch = 3 以下是全部终端输出：
 
-using device: cuda
-Loading BERT model...
-Loading AMR parser...
-AMR parser loaded successfully.
-gid=x Missing starting paren for node a3/and
-gid=x Start paren present but turn-01 is not a new concept
-gid=x Start paren present but tail is not a new concept
-ignoring epigraph data for duplicate triple: ('b', ':part', 't')
-ignoring epigraph data for duplicate triple: ('b', ':part', 't')
-进入train函数
-Training: 100%|███████████████████████████████████████████████████████| 2/2 [00:00<00:00,  2.52it/s]
-结束train函数
-进入evaluate函数
-Evaluating: 100%|█████████████████████████████████████████████████████| 2/2 [00:00<00:00,  2.92it/s]
-结束evaluate函数
-Epoch 1/3, Train Loss: 1.8284, Train Accuracy: 0.4667, Validation Accuracy: 0.0000
-进入train函数
-(gpt-re) zyx@user-System-Product-Name:~/paperCode/gpt-re-new$ python test_withamr_4.py
+(gpt-re) zyx@user-System-Product-Name:~/paperCode/gpt-re-new$ python test_withamr_3.py
 using device: cuda
 Loading BERT model...
 Loading AMR parser...
