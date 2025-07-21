@@ -432,8 +432,8 @@ def main():
     if graph_model is None:
         init_graph_model()  # 确保图模型已初始化
     
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True ,collate_fn=collate_fn)
-    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False, collate_fn=collate_fn)
+    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True ,collate_fn=collate_fn)
+    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False, collate_fn=collate_fn)
 
     model = RelationClassifier().to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
