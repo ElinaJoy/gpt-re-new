@@ -18,6 +18,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import contextlib
 import io
+from sklearn.metrics import f1_score
+
 
 
 
@@ -357,6 +359,9 @@ def evaluate(model, val_loader, epoch=None):
     correct = 0
     total = 0
 
+    all_preds = []
+    all_labels = []
+
     all_graph_embeddings = []
     all_graph_labels = []
 
@@ -371,6 +376,10 @@ def evaluate(model, val_loader, epoch=None):
         correct += (predicted == labels).sum().item()
         total += labels.size(0)
 
+        # 记录预测结果和真实标签
+        all_preds.extend(predicted.cpu().tolist())
+        all_labels.extend(labels.cpu().tolist())
+
         # 图嵌入收集（用于可视化）
         graphs = [g for g in graphs if g is not None]
         if graphs:
@@ -382,14 +391,14 @@ def evaluate(model, val_loader, epoch=None):
     accuracy = correct / total
     print(f"分类准确率（Epoch {epoch}）: {accuracy:.4f}")
 
+    # 计算 F1 score
+    micro_f1 = f1_score(all_labels, all_preds, average='micro')  # 可以调整 average，支持 micro, macro, weighted
+    print(f"Micro F1 score（Epoch {epoch}）: {micro_f1:.4f}")
+
     # ---------------- 可视化 ----------------
     if epoch is not None and all_graph_embeddings:
         emb_all = torch.cat(all_graph_embeddings, dim=0).numpy()
         labels_all = np.array(all_graph_labels)
-
-        # if len(emb_all) > 300:
-        #     emb_all = emb_all[:300]
-        #     labels_all = labels_all[:300]
 
         tsne = TSNE(n_components=2, perplexity=30, random_state=42)
         tsne_emb = tsne.fit_transform(emb_all)
@@ -398,13 +407,14 @@ def evaluate(model, val_loader, epoch=None):
         scatter = plt.scatter(tsne_emb[:, 0], tsne_emb[:, 1], c=labels_all, cmap='tab10', s=10)
         plt.title(f"Graph Embeddings t-SNE (Epoch {epoch})")
         plt.colorbar(scatter)
-        plt.savefig(f"graph_tsne_epoch_{epoch}.png")
+        plt.savefig(f"epoch_{epoch}.png")
         plt.close()
 
         sil_score = silhouette_score(emb_all, labels_all)
         print(f"Silhouette score（Epoch {epoch}）: {sil_score:.4f}")
 
     return accuracy
+
 
 
 
